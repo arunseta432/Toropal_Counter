@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CounterButton extends StatelessWidget {
-  const CounterButton({
+class CounterIncrementDecrementButton extends StatelessWidget {
+  const CounterIncrementDecrementButton({
     super.key,
     required this.icon,
     required this.onPressed,
