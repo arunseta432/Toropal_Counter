@@ -67,92 +67,93 @@ class _CounterPageState extends State<CounterPage> {
     return Scaffold(
       backgroundColor: const Color(0xFF2c2c2c),
       body: Center(
-        child: BlocBuilder<CounterBloc, CounterState>(
-          builder: (context, state) {
-            return Container(
-              margin: const EdgeInsets.all(30.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFF262626),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              height: 100.0,
-              child: GestureDetector(
-                onHorizontalDragUpdate: (details) {
-                  setState(() {
-                    _dragOffset += details.primaryDelta ?? 0.0;
-                    _scale = 1.0 -
-                        min(
-                            0.3,
-                            _dragOffset.abs() /
-                                500); // Adjust the scale as you drag
-                  });
-                },
-                onHorizontalDragEnd: (details) => _onDragEnd(counterBloc),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AnimatedPositioned(
-                      top: 7.5,
-                      bottom: 7.5,
-                      left: _dragOffset > 0 ? null : 125 - _dragOffset.abs(),
-                      right: _dragOffset < 0 ? null : 125 - _dragOffset.abs(),
-                      duration: const Duration(milliseconds: 200),
-                      onEnd: () {},
-                      
-                      child: Container(
-                        width: 85.0,
-                        height: 85.0,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF3b3b3b),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 30),
+          padding: const EdgeInsets.all(0.0),
+          decoration: BoxDecoration(
+            color: const Color(0xFF262626),
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(
+              color: Colors.grey.shade50,
+              width: 0.5,
+            ),
+          ),
+          height: 100.0 + (_dragOffset.abs() / 10),
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              setState(() {
+                _dragOffset += details.primaryDelta ?? 0.0;
+                _scale = 1.0 -
+                    min(
+                        0.3,
+                        _dragOffset.abs() /
+                            500); // Adjust the scale as you drag
+              });
+            },
+            onHorizontalDragEnd: (details) => _onDragEnd(counterBloc),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AnimatedPositioned(
+                  top: 7.5,
+                  bottom: 7.5,
+                  left: _dragOffset > 0 ? null : 125 - _dragOffset.abs(),
+                  right: _dragOffset < 0 ? null : 125 - _dragOffset.abs(),
+                  duration: const Duration(milliseconds: 200),
+                  child: Container(
+                    width: 85.0,
+                    height: 85.0,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF3b3b3b),
+                      shape: BoxShape.circle,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                          onPressed: () => counterBloc.add(Decrement()),
-                          icon: const Icon(Icons.remove,
-                              color: Color(0xFF767676)),
-                          iconSize: 40,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                        ),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          transitionBuilder:
-                              (Widget child, Animation<double> animation) {
-                            return ScaleTransition(
-                                scale: animation, child: child);
-                          },
-                          child: Transform.scale(
-                            scale: _scale,
-                            child: Text(
-                              '${state.counterValue}',
-                              key: ValueKey<int>(state.counterValue),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      onPressed: () => counterBloc.add(Decrement()),
+                      icon: const Icon(Icons.remove, color: Color(0xFF767676)),
+                      iconSize: 40,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                    ),
+                    BlocBuilder<CounterBloc, CounterState>(
+                        builder: (context, state) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder:
+                            (Widget child, Animation<double> animation) {
+                          return ScaleTransition(
+                              scale: animation, child: child);
+                        },
+                        child: Transform.scale(
+                          scale: _scale,
+                          child: Text(
+                            '${state.counterValue}',
+                            key: ValueKey<int>(state.counterValue),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        IconButton(
-                          onPressed: () => counterBloc.add(Increment()),
-                          icon: const Icon(Icons.add, color: Color(0xFF767676)),
-                          iconSize: 40,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                        ),
-                      ],
+                      );
+                    }),
+                    IconButton(
+                      onPressed: () => counterBloc.add(Increment()),
+                      icon: const Icon(Icons.add, color: Color(0xFF767676)),
+                      iconSize: 40,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                     ),
                   ],
                 ),
-              ),
-            );
-          },
+              ],
+            ),
+          ),
         ),
       ),
     );
