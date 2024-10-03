@@ -1,4 +1,4 @@
-# toropal_counter
+# Counter
 
 A new Flutter project.
 
