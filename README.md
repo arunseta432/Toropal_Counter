@@ -1,6 +1,6 @@
-# toropal_counter
+# Counter
 
-A new Flutter project.
+A new Counter project.
 
 ## Getting Started
 
