@@ -8,17 +8,25 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
           state.counterValue + 1,
         )));
     on<Decrement>((event, emit) => emit(CounterState(state.counterValue - 1)));
-    on<Reset>((event, emit) => emit(CounterState(0))); // Reset counter logic
+    on<ResetCounter>((event, emit) => emit(CounterState(0)));
   }
 }
 
 class DragCounterBloc extends Bloc<DragCounterEvent, DragCounterState> {
-  DragCounterBloc() : super(DragCounterState(0, 0)) {
+  DragCounterBloc() : super(DragCounterState(0, 1)) {
     on<DragCounter>(
       (event, emit) => emit(
         DragCounterState(
           state.dragOffset + event.dragOffset,
-          state.scale + event.scale,
+          event.scale,
+        ),
+      ),
+    );
+    on<ResetDragCounter>(
+      (event, emit) => emit(
+        DragCounterState(
+          0,
+          1.0,
         ),
       ),
     );
