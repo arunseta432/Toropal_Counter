@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toropal_counter/counter_event.dart';
 import 'package:toropal_counter/counter_state.dart';
@@ -55,6 +56,7 @@ class CounterComponent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CounterIncrementDecrementButton(
+                        message: "Press to decrement the count",
                         icon: Icons.remove,
                         color: Colors.red,
                         onPressed: () => counterBloc.add(
@@ -62,6 +64,7 @@ class CounterComponent extends StatelessWidget {
                         ),
                       ),
                       CounterIncrementDecrementButton(
+                        message: "Press to increment the count",
                         icon: Icons.add,
                         color: Colors.green,
                         onPressed: () => counterBloc.add(
@@ -127,6 +130,7 @@ class CounterComponent extends StatelessWidget {
 
   void _onDragEnd(CounterBloc bloc, DragCounterBloc dragBloc) {
     if (dragBloc.state.dragOffset.abs() > 100) {
+      HapticFeedback.mediumImpact();
       // Increment if dragged to the right, Decrement if dragged to the left
       if (dragBloc.state.dragOffset > 0) {
         bloc.add(Increment());
