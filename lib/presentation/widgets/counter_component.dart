@@ -26,7 +26,7 @@ class CounterComponent extends StatelessWidget {
           onHorizontalDragUpdate: (details) {
             final double dragOffset = (details.primaryDelta ?? 0.0);
             final double scale =
-                1.0 + min(0.6, dragBloc.state.dragOffset.abs() / 500);
+                1.0 + min(0.4, dragBloc.state.dragOffset.abs() / 500)+ 0.25;
             dragBloc.add(DragCounter(dragOffset, scale));
           },
           onHorizontalDragEnd: (details) => _onDragEnd(counterBloc, dragBloc),

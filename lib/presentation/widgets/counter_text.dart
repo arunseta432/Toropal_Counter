@@ -57,7 +57,7 @@ class CounterText extends StatelessWidget {
                   '${counterState.counterValue}',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 30.0,
+                    fontSize: 32.0,
                     fontWeight: FontWeight.bold,
                   ),
                 );
