@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:toropal_counter/view/information_indicator.dart';
+import 'package:toropal_counter/presentation/index.dart';
 
 class CounterIncrementDecrementButton extends StatelessWidget {
   const CounterIncrementDecrementButton({

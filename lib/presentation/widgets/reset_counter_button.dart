@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toropal_counter/counter_bloc.dart';
-import 'package:toropal_counter/view/information_indicator.dart';
-
-import '../counter_event.dart';
+import 'package:toropal_counter/presentation/index.dart';
+import 'package:toropal_counter/bloc/index.dart';
 
 class ResetCounterButton extends StatelessWidget {
   const ResetCounterButton({super.key});

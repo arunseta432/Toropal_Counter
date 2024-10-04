@@ -3,11 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toropal_counter/counter_event.dart';
-import 'package:toropal_counter/counter_state.dart';
-import 'package:toropal_counter/view/counter_increment_decrement_button.dart';
-
-import '../counter_bloc.dart';
+import 'package:toropal_counter/presentation/index.dart';
+import 'package:toropal_counter/bloc/index.dart';
 
 class CounterComponent extends StatelessWidget {
   const CounterComponent({super.key});
@@ -23,11 +20,13 @@ class CounterComponent extends StatelessWidget {
             10,
             (MediaQuery.of(context).size.width / 2 - 70) -
                 dragBloc.state.dragOffset.abs());
+
+        // Drag Gesture...
         return GestureDetector(
           onHorizontalDragUpdate: (details) {
             final double dragOffset = (details.primaryDelta ?? 0.0);
             final double scale =
-                1.0 + min(0.6, dragBloc.state.dragOffset.abs() / 500);
+                1.0 + min(0.4, dragBloc.state.dragOffset.abs() / 500)+ 0.25;
             dragBloc.add(DragCounter(dragOffset, scale));
           },
           onHorizontalDragEnd: (details) => _onDragEnd(counterBloc, dragBloc),
@@ -39,6 +38,7 @@ class CounterComponent extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
               border: Border.all(
                 width: 2,
+                // Show highlighted border based on increment decrement event...
                 color: maxDistance == 10.0
                     ? dragBloc.state.dragOffset > 0
                         ? Colors.green
@@ -55,6 +55,7 @@ class CounterComponent extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Decrement button...
                       CounterIncrementDecrementButton(
                         message: "Press to decrement the count",
                         icon: Icons.remove,
@@ -63,6 +64,7 @@ class CounterComponent extends StatelessWidget {
                           Decrement(),
                         ),
                       ),
+                      // Increment button...
                       CounterIncrementDecrementButton(
                         message: "Press to increment the count",
                         icon: Icons.add,
@@ -74,51 +76,9 @@ class CounterComponent extends StatelessWidget {
                     ],
                   ),
                 ),
-                AnimatedPositioned(
-                  left: dragBloc.state.dragOffset >= 0 ? null : maxDistance,
-                  right: dragBloc.state.dragOffset <= 0 ? null : maxDistance,
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.decelerate,
-                  child: Container(
-                    width: 80.0,
-                    height: 80.0,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2c2c2c),
-                      border: Border.all(
-                          width: 2.0,
-                          color: maxDistance == 10.0
-                              ? dragBloc.state.dragOffset > 0
-                                  ? Colors.green
-                                  : Colors.red
-                              : Colors.white24),
-                      shape: BoxShape.circle,
-                    ),
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      child: Transform.scale(
-                        scale: dragState.scale,
-                        child: BlocBuilder<CounterBloc, CounterState>(
-                          builder: (context, counterState) {
-                            return Text(
-                              '${counterState.counterValue}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
+                // Counter Display text...
+                CounterText(
+                  dragBloc: dragBloc,
                 ),
               ],
             ),
@@ -138,6 +98,8 @@ class CounterComponent extends StatelessWidget {
         bloc.add(Decrement());
       }
     }
+
+    // Reset Drag counter to initial position (Center)...
     dragBloc.add(ResetDragCounter());
   }
 }
