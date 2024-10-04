@@ -15,9 +15,11 @@ class ToropalCounterApp extends StatelessWidget {
     return MaterialApp(
         home: MultiBlocProvider(
       providers: [
+        // Counter Bloc...
         BlocProvider<CounterBloc>(
           create: (BuildContext context) => CounterBloc(),
         ),
+        // Drag Counter Bloc...
         BlocProvider<DragCounterBloc>(
           create: (BuildContext context) => DragCounterBloc(),
         ),

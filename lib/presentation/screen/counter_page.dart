@@ -7,6 +7,7 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Appbar
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text(
@@ -22,7 +23,9 @@ class CounterPage extends StatelessWidget {
       body: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Counter Text, Increment, Decrement button...
           CounterComponent(),
+          // Reset counter button...
           ResetCounterButton(),
         ],
       ),

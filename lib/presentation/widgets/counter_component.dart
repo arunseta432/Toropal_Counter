@@ -20,6 +20,8 @@ class CounterComponent extends StatelessWidget {
             10,
             (MediaQuery.of(context).size.width / 2 - 70) -
                 dragBloc.state.dragOffset.abs());
+
+        // Drag Gesture...
         return GestureDetector(
           onHorizontalDragUpdate: (details) {
             final double dragOffset = (details.primaryDelta ?? 0.0);
@@ -36,6 +38,7 @@ class CounterComponent extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
               border: Border.all(
                 width: 2,
+                // Show highlighted border based on increment decrement event...
                 color: maxDistance == 10.0
                     ? dragBloc.state.dragOffset > 0
                         ? Colors.green
@@ -52,6 +55,7 @@ class CounterComponent extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Decrement button...
                       CounterIncrementDecrementButton(
                         message: "Press to decrement the count",
                         icon: Icons.remove,
@@ -60,6 +64,7 @@ class CounterComponent extends StatelessWidget {
                           Decrement(),
                         ),
                       ),
+                      // Increment button...
                       CounterIncrementDecrementButton(
                         message: "Press to increment the count",
                         icon: Icons.add,
@@ -71,6 +76,7 @@ class CounterComponent extends StatelessWidget {
                     ],
                   ),
                 ),
+                // Counter Display text...
                 CounterText(
                   dragBloc: dragBloc,
                 ),
@@ -92,6 +98,8 @@ class CounterComponent extends StatelessWidget {
         bloc.add(Decrement());
       }
     }
+
+    // Reset Drag counter to initial position (Center)...
     dragBloc.add(ResetDragCounter());
   }
 }
