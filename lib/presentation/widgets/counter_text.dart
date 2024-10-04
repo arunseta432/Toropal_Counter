@@ -20,9 +20,10 @@ class CounterText extends StatelessWidget {
         10,
         (MediaQuery.of(context).size.width / 2 - 70) -
             dragBloc.state.dragOffset.abs());
+
     return AnimatedPositioned(
-      left: dragBloc.state.dragOffset >= 0 ? null : maxDistance,
-      right: dragBloc.state.dragOffset <= 0 ? null : maxDistance,
+      left: dragBloc.state.dragOffset >= 0 ? null : maxDistance + 0.35,
+      right: dragBloc.state.dragOffset <= 0 ? null : maxDistance + 0.35,
       duration: const Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: Container(
@@ -31,12 +32,13 @@ class CounterText extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFF2c2c2c),
           border: Border.all(
-              width: 2.0,
-              color: maxDistance == 10.0
-                  ? dragBloc.state.dragOffset > 0
-                      ? Colors.green
-                      : Colors.red
-                  : Colors.white24),
+            width: 2.0,
+            color: maxDistance == 10.0
+                ? dragBloc.state.dragOffset > 0
+                    ? Colors.green
+                    : Colors.red
+                : Colors.white24,
+          ),
           shape: BoxShape.circle,
         ),
         child: AnimatedSwitcher(
